@@ -539,7 +539,7 @@ on post-fs-data
     symlink /data/data/com.android.shell/files/bugreports /data/bugreports
 
 # [ SEC_SELINUX_PORTING COMMON
-    mkdir /data/security 0711 system system_access
+    mkdir /data/security 0711 system system
 # ] SEC_SELINUX_PORTING COMMON
 
     # Create all remaining /data root dirs so that they are made through init
@@ -1328,17 +1328,17 @@ service auditd /system/bin/auditd -k
     disabled
     oneshot
 
-on property:selinux.sec.restorecon=1
-    restorecon_msc -RF /data
-    chown system system_access /data/security/aasa
-    chmod 2750 /data/security/aasa 
+# on property:selinux.sec.restorecon=1
+#    restorecon_msc -RF /data
+#    chown system system_access /data/security/aasa
+#    chmod 2750 /data/security/aasa 
         
-on property:sys.boot_completed=1
-    start auditd
+# on property:sys.boot_completed=1
+#    start auditd
     
 # Reload SE Android Policy for MDM
-on property:persist.security.mdm.policy=1
-    setprop selinux.reload_policy 1
+#on property:persist.security.mdm.policy=1
+#    setprop selinux.reload_policy 1
 # ] SEC_SELINUX_PORTING COMMON
 
 # AFW mode
@@ -1403,8 +1403,8 @@ on property:sys.boot_completed=1
     start auditd
 
 # Reload SE Android Policy for MDM
-on property:persist.security.mdm.policy=1
-    setprop selinux.reload_policy 1
+# on property:persist.security.mdm.policy=1
+#    setprop selinux.reload_policy 1
 
 # adbd is controlled via property triggers in init.<platform>.usb.rc
 service adbd /sbin/adbd --root_seclabel=u:r:su:s0
@@ -1506,7 +1506,7 @@ service drm /system/bin/drmserver
 service media /system/bin/mediaserver
     class main
     user media
-    group system audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm qcom_diag sdcard_r sdcard_rw media_rw lgt_gid radio
+    group system audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm qcom_diag shell sdcard_r sdcard_rw media_rw lgt_gid radio
     ioprio rt 4
 
 # One shot invocation to deal with encrypted volume.
@@ -1736,8 +1736,8 @@ on property:sys.boot_completed=1
     write /sys/block/mmcblk0/queue/scheduler cfq
     write /sys/block/sda/queue/scheduler cfq
     write /sys/block/sda/queue/read_ahead_kb 256
-    write /sys/block/dm-0/queue/read_ahead_kb 256
-    write /sys/block/dm-1/queue/read_ahead_kb 256
+#    write /sys/block/dm-0/queue/read_ahead_kb 256
+#    write /sys/block/dm-1/queue/read_ahead_kb 256
 
 
 # on property:persist.logd.logpersistd=logcatd
@@ -1754,3 +1754,17 @@ on property:sys.boot_completed=1
     # user logd
     # group log
     # writepid /dev/cpuset/system-background/tasks
+
+# mount /data/su.img to /su
+on property:sukernel.mount=1
+    mount ext4 loop@/data/su.img /su noatime
+
+# launch SuperSU daemon
+service daemonsu /sbin/launch_daemonsu.sh
+    class late_start
+    user root
+    seclabel u:r:init:s0
+    oneshot
+
+# SuperSU:PATCH:270
+# SuperSU:STOCK:f164332d03b30844d3dd53ab1bfbd3e492f25a85

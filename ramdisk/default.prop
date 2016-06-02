@@ -34,3 +34,14 @@ persist.radio.tdscdma_present=0
 ro.bootimage.build.date=Thu Apr 14 18:34:00 KST 2016
 ro.bootimage.build.date.utc=1460626440
 ro.bootimage.build.fingerprint=samsung/SC-02H/SC-02H:6.0.1/MMB29M/SC02HOMU1APD6:user/test-keys
+
+# Fix allshare
+#wlan.wfd.hdcp=disable
+#
+# WiFi fix
+ro.config.dmverity=false
+ro.securestorage.support=false
+ro.config.tima=0
+ro.config.knox=0
+ro.config.rkp=false
+ro.config.kap_default_on=false
