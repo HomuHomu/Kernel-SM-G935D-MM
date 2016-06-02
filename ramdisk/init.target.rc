@@ -92,6 +92,7 @@ on property:init.svc.bootanim=running
     write /sys/class/leds/wled/brightness 4095
 
 on boot
+    setenforce 0
     start rmt_storage
     start rfs_access
 # access permission for secure touch
