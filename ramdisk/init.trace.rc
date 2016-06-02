@@ -1,0 +1,104 @@
+## Permissions to allow system-wide tracing to the kernel trace buffer.
+##
+on boot
+
+# Allow writing to the kernel trace log.
+    chmod 0222 /sys/kernel/debug/tracing/trace_marker
+
+# Allow the shell group to enable (some) kernel tracing.
+    chown root shell /sys/kernel/debug/tracing/trace_clock
+    chown root shell /sys/kernel/debug/tracing/buffer_size_kb
+    chown root shell /sys/kernel/debug/tracing/options/overwrite
+    chown root shell /sys/kernel/debug/tracing/options/print-tgid
+    chown root shell /sys/kernel/debug/tracing/events/sched/sched_switch/enable
+    chown root shell /sys/kernel/debug/tracing/events/sched/sched_wakeup/enable
+    chown root shell /sys/kernel/debug/tracing/events/power/cpu_frequency/enable
+    chown root shell /sys/kernel/debug/tracing/events/power/cpu_idle/enable
+    chown root shell /sys/kernel/debug/tracing/events/power/clock_set_rate/enable
+    chown root shell /sys/kernel/debug/tracing/events/cpufreq_interactive/enable
+    chown root shell /sys/kernel/debug/tracing/tracing_on
+
+    chmod 0664 /sys/kernel/debug/tracing/trace_clock
+    chmod 0664 /sys/kernel/debug/tracing/buffer_size_kb
+    chmod 0664 /sys/kernel/debug/tracing/options/overwrite
+    chmod 0664 /sys/kernel/debug/tracing/options/print-tgid
+    chmod 0664 /sys/kernel/debug/tracing/events/sched/sched_switch/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/sched/sched_wakeup/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/power/cpu_frequency/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/power/cpu_idle/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/power/clock_set_rate/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/cpufreq_interactive/enable
+    chmod 0664 /sys/kernel/debug/tracing/tracing_on
+
+# Allow only the shell group to read and truncate the kernel trace.
+    chown root shell /sys/kernel/debug/tracing/trace
+    chmod 0660 /sys/kernel/debug/tracing/trace
+
+# Allow the shell group to enable kgsl tracing.
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/kgsl_register_event/enable 
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/kgsl_register_event/enable 
+    write /sys/kernel/debug/tracing/events/kgsl/kgsl_register_event/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/kgsl_fire_event/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/kgsl_fire_event/enable
+    write /sys/kernel/debug/tracing/events/kgsl/kgsl_fire_event/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/kgsl_issueibcmds/enable 
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/kgsl_issueibcmds/enable 
+    write /sys/kernel/debug/tracing/events/kgsl/kgsl_issueibcmds/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/adreno_cmdbatch_queued/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/adreno_cmdbatch_queued/enable
+    write /sys/kernel/debug/tracing/events/kgsl/adreno_cmdbatch_queued/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/adreno_cmdbatch_submitted/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/adreno_cmdbatch_submitted/enable
+    write /sys/kernel/debug/tracing/events/kgsl/adreno_cmdbatch_submitted/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/adreno_cmdbatch_retired/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/adreno_cmdbatch_retired/enable
+    write /sys/kernel/debug/tracing/events/kgsl/adreno_cmdbatch_retired/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/syncpoint_fence_expire/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/syncpoint_fence_expire/enable
+    write /sys/kernel/debug/tracing/events/kgsl/syncpoint_fence_expire/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/syncpoint_fence/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/syncpoint_fence/enable
+    write /sys/kernel/debug/tracing/events/kgsl/syncpoint_fence/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/syncpoint_timestamp_expire/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/syncpoint_timestamp_expire/enable
+    write /sys/kernel/debug/tracing/events/kgsl/syncpoint_timestamp_expire/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/syncpoint_timestamp/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/syncpoint_timestamp/enable
+    write /sys/kernel/debug/tracing/events/kgsl/syncpoint_timestamp/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/kgsl_pwrlevel/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/kgsl_pwrlevel/enable
+    write /sys/kernel/debug/tracing/events/kgsl/kgsl_pwrlevel/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/kgsl_pwrstats/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/kgsl_pwrstats/enable
+    write /sys/kernel/debug/tracing/events/kgsl/kgsl_pwrstats/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/kgsl/kgsl_buslevel/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/kgsl/kgsl_buslevel/enable
+    write /sys/kernel/debug/tracing/events/kgsl/kgsl_buslevel/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/sync/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/sync/enable
+    write /sys/kernel/debug/tracing/events/sync/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/sync/sync_pt/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/sync/sync_pt/enable
+    write /sys/kernel/debug/tracing/events/sync/sync_pt/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/sync/sync_wait/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/sync/sync_wait/enable
+    write /sys/kernel/debug/tracing/events/sync/sync_wait/enable 1
+
+    chown root shell /sys/kernel/debug/tracing/events/sync/sync_timeline/enable
+    chmod 0664 /sys/kernel/debug/tracing/events/sync/sync_timeline/enable
+    write /sys/kernel/debug/tracing/events/sync/sync_timeline/enable 1
