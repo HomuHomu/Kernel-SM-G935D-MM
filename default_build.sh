@@ -108,7 +108,8 @@ BUILD_NOW()
 	fi;
 
 	# build Image
-	time make ARCH=arm64 CROSS_COMPILE=../aarch64-linux-android-4.9/bin/aarch64-linux-android- CC='../aarch64-linux-android-4.9/bin/aarch64-linux-android-gcc' -j ${NR_CPUS}
+	export SEC_BUILD_OPTION_HW_REVISION=02
+	time make ARCH=arm64 CROSS_COMPILE=../../../prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-  KCFLAGS=-mno-android -j ${NR_CPUS}
 
 	cp "$KERNELDIR"/.config "$KERNELDIR"/arch/arm64/configs/"$KERNEL_CONFIG_FILE";
 
@@ -116,7 +117,7 @@ BUILD_NOW()
 
 	# compile the modules, and depmod to create the final Image
 	echo "Compiling Modules............"
-	time make ARCH=arm64 CROSS_COMPILE=../aarch64-linux-android-4.9/bin/aarch64-linux-android- CC='../aarch64-linux-android-4.9/bin/aarch64-linux-android-gcc' modules -j ${NR_CPUS} || exit 1
+	time make ARCH=arm64 CROSS_COMPILE=../../../prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android- modules -j ${NR_CPUS} KCFLAGS=-mno-android || exit 1
 
 	# move the compiled Image and modules into the READY-KERNEL working directory
 	echo "Move compiled objects........"
@@ -135,7 +136,7 @@ BUILD_NOW()
 	chmod 755 "$KERNELDIR"/READY-KERNEL/system/lib/modules/*
 
 	# remove empty directory placeholders from tmp-initramfs
-	for i in $(find ../Ramdisk-SM-G935D-MM-tmp/ -name EMPTY_DIRECTORY); do
+	for i in $(find ../Ramdisk-SM-G935D-MM-tmp/ -name .gitignore); do
 		rm -f "$i";
 	done;
 
